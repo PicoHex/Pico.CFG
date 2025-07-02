@@ -23,8 +23,8 @@ builder
 
 var configRoot = await builder.BuildAsync();
 
-var conStr = await configRoot.GetValueAsync("Database.ConnectionString");
-var timeout = await configRoot.GetValueAsync("Cache:Timeout");
-var appName = await configRoot.GetValueAsync("AppName");
+Console.WriteLine($"Database.ConnectionString: {await configRoot.GetValueAsync("Database.ConnectionString")}");
+Console.WriteLine($"Cache:Timeout: {await configRoot.GetValueAsync("Cache:Timeout")}");
+Console.WriteLine($"AppName: {await configRoot.GetValueAsync("AppName")}");
 
 Console.ReadLine();

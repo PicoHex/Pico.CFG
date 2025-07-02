@@ -6,9 +6,34 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{CB5D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4CC8256E-5941-494D-BE19-97B9FAF678E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pico.Cfg.Abs", "src\Pico.Cfg.Abs\Pico.Cfg.Abs.csproj", "{57D857D2-CF68-49B9-B6AE-4005E6D3D9ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pico.Cfg", "src\Pico.Cfg\Pico.Cfg.csproj", "{D467AAD2-B6A9-4224-9C5D-4C8E76DFA428}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pico.Cfg.Sample", "samples\Pico.CFG.Sample\Pico.Cfg.Sample.csproj", "{7E9E3174-8E0B-4609-AF32-F884833B925C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{57D857D2-CF68-49B9-B6AE-4005E6D3D9ED} = {DB1AA16F-F028-4E85-AF32-0ACC835DF8D5}
+		{D467AAD2-B6A9-4224-9C5D-4C8E76DFA428} = {DB1AA16F-F028-4E85-AF32-0ACC835DF8D5}
+		{7E9E3174-8E0B-4609-AF32-F884833B925C} = {CB5DEC6C-0610-4602-9A28-636CDD520BE5}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{57D857D2-CF68-49B9-B6AE-4005E6D3D9ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57D857D2-CF68-49B9-B6AE-4005E6D3D9ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57D857D2-CF68-49B9-B6AE-4005E6D3D9ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57D857D2-CF68-49B9-B6AE-4005E6D3D9ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D467AAD2-B6A9-4224-9C5D-4C8E76DFA428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D467AAD2-B6A9-4224-9C5D-4C8E76DFA428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D467AAD2-B6A9-4224-9C5D-4C8E76DFA428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D467AAD2-B6A9-4224-9C5D-4C8E76DFA428}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E9E3174-8E0B-4609-AF32-F884833B925C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E9E3174-8E0B-4609-AF32-F884833B925C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E9E3174-8E0B-4609-AF32-F884833B925C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E9E3174-8E0B-4609-AF32-F884833B925C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
