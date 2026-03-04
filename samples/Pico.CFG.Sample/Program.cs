@@ -1,6 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
+// See https://aka.ms/new-console-template for more information
 
-var builder = Cfg.CreateBuilder();
+var builder = CFG.CreateBuilder();
 
 builder
     .Add(
@@ -23,7 +23,9 @@ builder
 
 var configRoot = await builder.BuildAsync();
 
-Console.WriteLine($"Database.ConnectionString: {await configRoot.GetValueAsync("Database.ConnectionString")}");
+Console.WriteLine(
+    $"Database.ConnectionString: {await configRoot.GetValueAsync("Database.ConnectionString")}"
+);
 Console.WriteLine($"Cache:Timeout: {await configRoot.GetValueAsync("Cache:Timeout")}");
 Console.WriteLine($"AppName: {await configRoot.GetValueAsync("AppName")}");
 
