@@ -110,6 +110,9 @@ jobs:
     - name: Install Windows SDK
       uses: seanmiddleditch/gha-setup-vsdevenv@master
     
+    - name: Restore dependencies for AOT
+      run: dotnet restore samples/Pico.CFG.Sample -r win-x64
+    
     - name: Build AOT sample
       run: |
         dotnet publish samples/Pico.CFG.Sample -c Release -r win-x64 -p:PublishAOT=true --self-contained -o ./artifacts/aot
