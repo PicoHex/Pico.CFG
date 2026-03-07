@@ -1,0 +1,25 @@
+<Project>
+  <PropertyGroup>
+    <!-- Common version for local development -->
+    <Version>0.0.0-dev</Version>
+    <Authors>PicoHex</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/PicoHex/Pico.CFG</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/PicoHex/Pico.CFG</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    
+    <!-- Deterministic builds for AOT compatibility -->
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+    
+    <!-- SourceLink support for debugging from NuGet packages -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+  
+  <ItemGroup Condition="'$(IsPackable)' == 'true'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.*" PrivateAssets="All" />
+  </ItemGroup>
+</Project>
