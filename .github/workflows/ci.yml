@@ -85,7 +85,7 @@ jobs:
         mkdir -p ./nupkg
         
         # Pack abstractions first
-        dotnet pack src/Pico.CFG.Abs/Pico.Cfg.Abs.csproj \
+        dotnet pack src/Pico.Cfg.Abs/Pico.Cfg.Abs.csproj \
           --configuration Release \
           --output ./nupkg \
           -p:Version=${{ steps.version.outputs.VERSION }} \
@@ -94,7 +94,7 @@ jobs:
           -p:Deterministic=true
         
         # Pack main project, using packed abstractions as additional source
-        dotnet pack src/Pico.CFG/Pico.Cfg.csproj \
+        dotnet pack src/Pico.Cfg/Pico.Cfg.csproj \
           --configuration Release \
           --output ./nupkg \
           -p:Version=${{ steps.version.outputs.VERSION }} \
