@@ -122,11 +122,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
     
-    - name: Download packed NuGet packages
-      uses: actions/download-artifact@v4
-      with:
-        name: nupkg
-    
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
@@ -145,10 +140,7 @@ jobs:
     - name: Restore dependencies for AOT
       run: |
         runtime="${{ matrix.os == 'windows-latest' && 'win-x64' || 'linux-x64' }}"
-        dotnet restore samples/Pico.CFG.Sample \
-          -r $runtime \
-          -p:UseProjectReferences=false \
-          -p:RestoreAdditionalProjectSources=./nupkg
+        dotnet restore samples/Pico.CFG.Sample -r $runtime
     
     - name: Build AOT sample
       run: |
@@ -157,8 +149,6 @@ jobs:
           -c Release \
           -r $runtime \
           -p:PublishAOT=true \
-          -p:UseProjectReferences=false \
-          -p:RestoreAdditionalProjectSources=./nupkg \
           --self-contained \
           -o ./artifacts/aot-$runtime
     
