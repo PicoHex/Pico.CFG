@@ -40,13 +40,13 @@ jobs:
           ${{ runner.os }}-nuget-
     
     - name: Restore dependencies
-      run: dotnet restore -p:UseProjectReferences=true
+      run: dotnet restore tests/Pico.CFG.Tests/Pico.Cfg.Tests.csproj -p:UseProjectReferences=true
     
     - name: Build
-      run: dotnet build --configuration Release --no-restore -p:UseProjectReferences=true
+      run: dotnet build tests/Pico.CFG.Tests/Pico.Cfg.Tests.csproj --configuration Release --no-restore -p:UseProjectReferences=true
     
     - name: Run tests
-      run: dotnet test --configuration Release --no-build --verbosity normal
+      run: dotnet test tests/Pico.CFG.Tests/Pico.Cfg.Tests.csproj --configuration Release --no-build --verbosity normal
 
   pack:
     name: Pack
