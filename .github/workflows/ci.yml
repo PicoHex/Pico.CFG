@@ -46,7 +46,7 @@ jobs:
       run: dotnet build tests/Pico.CFG.Tests/Pico.Cfg.Tests.csproj --configuration Release --no-restore -p:UseProjectReferences=true
     
     - name: Run tests
-      run: dotnet test tests/Pico.CFG.Tests/Pico.Cfg.Tests.csproj --configuration Release --no-build --verbosity normal
+      run: dotnet test --project tests/Pico.CFG.Tests/Pico.Cfg.Tests.csproj --configuration Release --no-build --verbosity normal
 
   pack:
     name: Pack
