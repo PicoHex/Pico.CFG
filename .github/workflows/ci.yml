@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 10
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     
     steps:
     - name: Checkout repository
@@ -32,7 +32,7 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     
     - name: Cache NuGet packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.nuget/packages
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -46,7 +46,7 @@ jobs:
       run: dotnet build tests/Pico.CFG.Tests/Pico.Cfg.Tests.csproj --configuration Release --no-restore -p:UseProjectReferences=true
     
     - name: Run tests
-      run: dotnet test --project tests/Pico.CFG.Tests/Pico.Cfg.Tests.csproj --configuration Release --no-build --verbosity normal
+      run: dotnet test --project tests/Pico.CFG.Tests/Pico.Cfg.Tests.csproj --configuration Release --no-build --verbosity normal -p:UseProjectReferences=true
 
   pack:
     name: Pack
@@ -71,7 +71,7 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     
     - name: Cache NuGet packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.nuget/packages
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -110,13 +110,25 @@ jobs:
         path: ./nupkg
 
   aot-validation:
-    name: AOT Validation (${{ matrix.os }})
+    name: AOT Validation (${{ matrix.runtime }})
     runs-on: ${{ matrix.os }}
     needs: pack
     if: startsWith(github.ref, 'refs/tags/v')
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        include:
+          # x64 architectures
+          - runtime: win-x64
+            os: windows-latest
+          - runtime: linux-x64  
+            os: ubuntu-latest
+          # ARM architectures (optional for basic libraries)
+          - runtime: win-arm64
+            os: windows-latest
+          - runtime: linux-arm64
+            os: ubuntu-latest
+          - runtime: osx-arm64
+            os: macos-latest
     
     steps:
     - name: Checkout repository
@@ -127,36 +139,35 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     
-    - name: Install AOT toolchain
+    - name: Install platform-specific SDK
       if: matrix.os == 'windows-latest'
       uses: seanmiddleditch/gha-setup-vsdevenv@master
     
-    - name: Install clang (Linux)
+    - name: Install Clang (Linux)
       if: matrix.os == 'ubuntu-latest'
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y clang zlib1g-dev
+      run: sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
+    
+    - name: Install Xcode command line tools (macOS)
+      if: matrix.os == 'macos-latest'
+      run: xcode-select --install || true
     
     - name: Restore dependencies for AOT
-      run: |
-        runtime="${{ matrix.os == 'windows-latest' && 'win-x64' || 'linux-x64' }}"
-        dotnet restore samples/Pico.CFG.Sample -r $runtime
+      run: dotnet restore samples/Pico.CFG.Sample -r ${{ matrix.runtime }}
     
     - name: Build AOT sample
       run: |
-        runtime="${{ matrix.os == 'windows-latest' && 'win-x64' || 'linux-x64' }}"
         dotnet publish samples/Pico.CFG.Sample \
           -c Release \
-          -r $runtime \
+          -r ${{ matrix.runtime }} \
           -p:PublishAOT=true \
           --self-contained \
-          -o ./artifacts/aot-$runtime
+          -o ./artifacts/aot-${{ matrix.runtime }}
     
     - name: Upload AOT artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: aot-binaries-${{ matrix.os }}
-        path: ./artifacts/aot-*
+        name: aot-binaries-${{ matrix.runtime }}
+        path: ./artifacts/aot-${{ matrix.runtime }}
 
   publish:
     name: Publish to NuGet
